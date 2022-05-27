@@ -55,10 +55,9 @@ public class RegistrationFormWithPageObjectsTests {
                 credentialsConfig.login(), credentialsConfig.password(), System.getProperty("selenoidRemote"));
         Configuration.baseUrl = System.getProperty("baseUrl");
         Configuration.browserSize = System.getProperty("browserSize", "1200x1080");
-
-        System.out.println(Configuration.remote);
-        System.out.println(Configuration.baseUrl);
-        System.out.println(Configuration.browserSize);
+        System.out.println("Configuration.remote=" + Configuration.remote);
+        System.out.println("Configuration.baseUrl=" + Configuration.baseUrl);
+        System.out.println("Configuration.browserSize=" + Configuration.browserSize);
 
         SelenideLogger.addListener("allure", new AllureSelenide());
 
