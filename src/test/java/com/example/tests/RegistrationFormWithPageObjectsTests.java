@@ -16,8 +16,7 @@ import static io.qameta.allure.Allure.step;
 import static java.lang.String.format;
 
 @Tag("Jenkins")
-public class RegistrationFormWithPageObjectsTests {
-    RandomDataGenerator generator = new RandomDataGenerator();
+public class RegistrationFormWithPageObjectsTests extends TestBase {
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
 
     String firstName = generator.getFirstName(),
@@ -47,34 +46,6 @@ public class RegistrationFormWithPageObjectsTests {
             resultTablePicture = "Picture",
             resultTableAddress = "Address",
             resultTableStateAndCity = "State and City";
-
-    @BeforeAll
-    static void setUp() {
-        CredentialsConfig credentialsConfig = ConfigFactory.create(CredentialsConfig.class);
-        Configuration.remote = format("https://%s:%s@%s/wd/hub",
-                credentialsConfig.login(), credentialsConfig.password(), System.getProperty("selenoidRemote"));
-        Configuration.baseUrl = System.getProperty("baseUrl");
-        Configuration.browserSize = System.getProperty("browserSize", "1200x1080");
-        System.out.println("Configuration.remote=" + Configuration.remote);
-        System.out.println("Configuration.baseUrl=" + Configuration.baseUrl);
-        System.out.println("Configuration.browserSize=" + Configuration.browserSize);
-
-        SelenideLogger.addListener("allure", new AllureSelenide());
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("enableVNC", true);
-        capabilities.setCapability("enableVideo", true);
-        Configuration.browserCapabilities = capabilities;
-    }
-
-    @AfterEach
-    void addAttachments() {
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
-        closeWebDriver();
-    }
 
     @Test
     @DisplayName("Fill registration test")
@@ -113,5 +84,4 @@ public class RegistrationFormWithPageObjectsTests {
                         .checkResultTableField(resultTableStateAndCity, state + " " + city)
         );
     }
-
 }
